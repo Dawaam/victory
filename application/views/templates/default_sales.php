@@ -194,10 +194,10 @@
     </style>
 
   </head>
-  <body>
+  <body style="padding-top: 50px;">
   
   <header>
-      <nav class="navbar navbar-default">
+      <nav class="navbar navbar-default" style="position: fixed; top: 0; width:100%;z-index: 3;">
         <div class="container-fluid" style="padding-left: 15px; padding-right: 15px;">
           <!-- Brand and toggle get grouped for better mobile display -->
 

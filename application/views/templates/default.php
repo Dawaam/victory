@@ -242,10 +242,10 @@
     </style>
 
   </head>
-  <body>
+  <body style="padding-top: 50px;">
   
   <header>
-      <nav class="navbar navbar-default">
+      <nav class="navbar navbar-default" style="position: fixed; top: 0; width:100%;z-index: 3;">
         <div class="container-fluid" style="padding-left: 15px; padding-right: 15px;">
           <!-- Brand and toggle get grouped for better mobile display -->
 
@@ -502,7 +502,7 @@
       </nav>
   </header>
   
-  <section style="min-height: 556px;">
+  <section style="min-height: 556px; margin-bottom: 60px;">
     <?php echo $body ?>
   </section>
   
@@ -527,7 +527,7 @@
       </table>
   </div>
 
-  <footer style="height: 50px; background-color: <?php echo $configuration->primary_color ?>">
+  <footer style="height: 50px; position: fixed; bottom:0; width: 100%; background-color: <?php echo $configuration->primary_color ?>">
     <button onclick="toggleMetroCharm('#charm_currency');" id="kurstoggle" class="open-kurs button"><span class="icon mif-dollar2" style="margin-bottom: 4px;"></span></button>
   </footer>
 

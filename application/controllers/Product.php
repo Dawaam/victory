@@ -124,6 +124,7 @@
 	            		'selling_price'	=> $this->input->post('product_selling_price'),
 	            		'gold_amount'	=> $this->input->post('gold_amount'),
 	            		'tray_id'		=> $this->input->post('product_tray'),
+	            		'supplier_id'	=> $this->input->post('product_supplier'),
 	            		'photo'			=> $photo,
 
 	            	);
@@ -171,6 +172,7 @@
 				if ($this->session_role == 'admin') {
 					$data['outlets'] = $this->db->get('outlets')->result();
 				}
+				$data['suppliers'] = $this->db->get('suppliers')->result();
 				$data['title'] = 'Product';
 				$data['stone_type'] = $this->db->get('diamond_type')->result();
 				$data['is_mobile'] = $this->is_mobile;

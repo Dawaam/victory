@@ -3,11 +3,12 @@
 class Product_model extends CI_Model{
 
 	function get_product_all_outlet(){
-		$this->db->select('products.*,outlets.name as outlet, tray.code as tray,gold_amount.original,gold_amount.marked_up,gold_amount.type as amount_type');
+		$this->db->select('products.*,outlets.name as outlet, tray.code as tray,gold_amount.original,gold_amount.marked_up,gold_amount.type as amount_type, suppliers.name as supplier');
 		$this->db->from('products');
 		$this->db->join('outlets','outlets.id = products.outlet_id');
 		$this->db->join('tray','tray.id = products.tray_id');
 		$this->db->join('gold_amount','gold_amount.id = products.gold_amount');
+		$this->db->join('suppliers','suppliers.id = products.supplier_id','left');
 		$this->db->where('products.status','available');
 		$this->db->order_by('products.status','asc');
 		return $this->db->get()->result();

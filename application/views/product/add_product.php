@@ -15,7 +15,7 @@
 		</div>
 		
 		<?php if($role == 'admin'): ?>
-			<div class="row" id="row_outlet">
+			<div class="row cells2" id="row_outlet">
 				<div class="cell">
 					<label for="">Toko</label>
 					<div class="input-control select full-size">
@@ -27,13 +27,25 @@
 						</select>
 					</div>
 				</div>
-			</div>
-			<div class="row cells2">
+
 				<div class="cell">
 					<label for="">Baki</label>
 					<div class="input-control select full-size">
 						<select name="product_tray" id="tray" onchange="get_data_new_product()" data-validate-func="required" data-validate-hint="Baki harus dipilih">
 							<option value="">--Pilih Baki--</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row cells2">
+				<div class="cell">
+					<label for="">Supplier</label>
+					<div class="input-control select full-size">
+						<select name="product_supplier" id="supplier">
+							<option value="">--Pilih Supplier--</option>
+							<?php foreach ($suppliers as $supplier): ?>
+								<option value="<?php echo $supplier->id?>"><?php echo $supplier->name?></option>
+							<?php endforeach ?>
 						</select>
 					</div>
 				</div>

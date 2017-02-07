@@ -71,6 +71,7 @@
 							<th data-hide="phone">Penyesuaian</th>
 							<th data-hide="phone">Status</th>
 							<th data-hide="phone">Kadar</th>
+							<th data-hide="phone">Supplier</th>
 							<th data-hide="phone">Lokasi</th>
 						</tr>
 					</thead>
@@ -90,18 +91,19 @@
 									<td><?php echo $product->rounded_weight ?></td>
 									<td><?php echo $product->status ?></td>
 									<td><?php echo $product->amount_type.$product->original.' -> '.$product->marked_up ?></td>
+									<td><?php echo $product->supplier?></td>
 									<td><?php echo $product->outlet ?></td>
 								</tr>		
 								<?php $i++; ?>
 							<?php endforeach; ?>
 						<?php else:?>
 							<tr>
-								<td colspan="12" class="text-center"><h3>Table kosong</h3></td>
+								<td colspan="13" class="text-center"><h3>Table kosong</h3></td>
 							</tr>
 						<?php endif; ?>
 					</tbody>
 					<tfoot class="hide-if-no-paging">
-						<td colspan="12">
+						<td colspan="13">
 							<div class="pagination"></div>
 						</td>						
 					</tfoot>

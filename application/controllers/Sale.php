@@ -7,6 +7,7 @@
 			parent::__construct();
 			
 			$this->load->model('sale_model');
+			$this->load->model('type_model','type');
 		}
 
 		/****List Penjualan****/
@@ -15,6 +16,7 @@
 			if ($this->session_role == 'admin') {
 				$data['outlets'] = $this->db->get('outlets')->result();
 				$data['sale'] = $this->sale_model->get_sale_by_outlet(1);
+				$data['type'] = $this->type->get_all();
 			}else{
 				$data['outlets'] = NULL;
 				$data['sale'] = $this->sale_model->get_sale_by_outlet($this->session_outlet);	
@@ -173,6 +175,19 @@
 				$sale = (Object) $sale;
 				echo json_encode($sale);	
 			}
+			
+		}
+		
+		public function get_sale_by_type($type_id = ''){
+			$type = $this->type->get($type_id);
+
+			$sale = $this->sale_model->get_sale_by_type($type_id,$type->name);
+			if($sale == NULL){
+				echo 'not found';
+			}else{
+				$sale = (Object) $sale;
+				echo json_encode($sale);	
+			} 
 			
 		}
 

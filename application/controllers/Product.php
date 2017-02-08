@@ -5,6 +5,7 @@
 		function __construct(){
 			parent::__construct();
 			$this->load->model('product_model');
+			$this->load->model('type_model','type');
 
 		}
 
@@ -174,6 +175,7 @@
 				}
 				$data['suppliers'] = $this->db->get('suppliers')->result();
 				$data['title'] = 'Product';
+				$data['type'] = $this->type->get_all();
 				$data['stone_type'] = $this->db->get('diamond_type')->result();
 				$data['is_mobile'] = $this->is_mobile;
 				$data['trays'] = $this->db->get_where('tray', array('outlet_id' => $this->session_outlet))->result();

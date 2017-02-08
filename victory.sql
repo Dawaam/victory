@@ -383,6 +383,7 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `product_code` varchar(30) NOT NULL,
   `name` varchar(30) NOT NULL,
+  `type_id` int(11) NOT NULL,
   `type` enum('Emas','Berlian') NOT NULL,
   `category` varchar(30) NOT NULL,
   `real_weight` double NOT NULL,

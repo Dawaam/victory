@@ -13,124 +13,72 @@
 	            <hr class="bg-primary">    
 	        </div>
 	    </div>
-		<div class="row cells5">
-	        <div class="cell">
-			    <div class="row">
-			    	<div class="cell">
-				    	<h4 class="margin20 no-margin-top no-margin-right no-margin-left">Filter</h4>
-			        </div>
-		        </div>
-			    <div class="row">
-			    	<div class="cell">
-			    		<label><strong>Kata Kunci</strong></label>
-			    		<div class="input-control text full-size">
-			    			<span class="mif-search prepend-icon"></span>
-		                    <input type="text" placeholder="Cari.." id="filter" >
-		                </div>
-			    	</div>
-			    </div>
-			    <?php if($outlets): ?>
-			    <div class="row">
-			    	<div class="cell">
-			    		<label><strong>Toko</strong></label>
-						<div class="input-control select full-size">
-						    <select name="radio_outlet" onclick="get_sale_by_outlet(this)">
-						        <option value="">Semua Toko</option>
-				   				<?php foreach($outlets as $outlet): ?>
-						        <option value="<?php echo $outlet->id ?>"><?php echo $outlet->name ?></option>
-				            	<?php endforeach; ?>
-						    </select>
-						</div>
-			    	</div>
-			    </div>
-				<?php endif; ?>
-			    <?php if(isset($type)): ?>
-			    <div class="row">
-			    	<div class="cell">
-			    		<label><strong>Kategori</strong></label>
-						<div class="input-control select full-size">
-						    <select name="type" onclick="get_sale_by_type(this)">
-						        <option value="">Semua Kategori</option>
-				   				<?php foreach($type as $type): ?>
-						        <option value="<?php echo $type->id ?>"><?php echo $type->name ?></option>
-				            	<?php endforeach; ?>
-						    </select>
-						</div>
-			    	</div>
-			    </div>
-				<?php endif; ?>
-			    <div class="row">
-			    	<div class="cell">
-			    		<label><strong>Tanggal Penjualan</strong></label>
-						<div class="input-control text full-size" data-role="datepicker" data-scheme="darcula">
-						    <input type="text">
-						    <button class="button"><span class="mif-calendar"></span></button>
-						</div>
-			    	</div>
-			    </div>
-			    <div class="row">
-			    	<div class="cell">
-			    		<label><strong>Minimal Timbangan</strong></label>
-			    		<div class="input-control text full-size">
-			    			<span class="mif-calculator2 prepend-icon"></span>
-		                    <input type="text" placeholder="Dalam gram.." >
-		                </div>
-			    	</div>
-			    </div>
-			    <div class="row">
-			    	<div class="cell">
-			    		<label><strong>Minimal Omzet</strong></label>
-			    		<div class="input-control text full-size">
-			    			<span class="mif-money prepend-icon"></span>
-		                    <input type="text" placeholder="Dalam rupiah.." >
-		                </div>
-			    	</div>
-			    </div>
-	        </div>
-	        <div class="cell colspan4">
-				<div class="row">
-					<div class="cell table-responsive toggle-circle-filled">
-						<table class="table hovered border bordered table-condensed" id="table_sale" data-filter="#filter" data-page-size="10">
-							<thead>
+	    <?php if($outlets): ?>
+	    <div class="row">
+	    	<div class="cell">
+				<label class="input-control radio small-check">
+				    <input type="radio" name="radio_outlet" value="" onclick="get_sale_by_outlet(this)">
+				    <span class="check"></span>
+				    <span class="caption">Semua Toko</span>
+				</label>
+   				<?php foreach($outlets as $outlet): ?>
+                	<label class="input-control radio small-check">
+					    <input type="radio" value="<?php echo $outlet->id ?>" name="radio_outlet" onclick="get_sale_by_outlet(this)">
+					    <span class="check"></span>
+					    <span class="caption"><?php echo $outlet->name ?></span>
+					</label>
+            	<?php endforeach; ?>
+	    	</div>
+	    </div>
+		<?php endif; ?>
+	    <div class="row">
+	    	<div class="cell">
+	    		<div class="input-control text full-size">
+                    <input type="text" placeholder="Cari.." id="filter" >
+                </div>
+	    	</div>
+	    </div>
+		<div class="row">
+			<div class="cell table-responsive toggle-circle-filled">
+				<table class="table hovered border bordered table-condensed" id="table_sale" data-filter="#filter" data-page-size="10">
+					<thead>
+						<tr>
+							<th data-type="numeric">No.</th>
+							<th >Kode Penjualan</th>
+							<th data-hide="phone">Jumlah Barang</th>
+							<th data-hide="phone">Sales</th>
+							<th data-hide="phone">Kasir</th>
+							<th data-hide="phone">Customer</th>
+							<th data-hide="phone">Total Harga</th>
+							<th data-hide="phone">Toko</th>
+							<th data-hide="phone">Tanggal</th>
+							
+						</tr>
+					</thead>
+					<tbody id="table_body">
+						<?php if($sale !=NULL): ?>
+							<?php $i = 1; ?>
+							<?php foreach($sale as $row): ?>
 								<tr>
-									<th data-type="numeric">No.</th>
-									<th >Kode Penjualan</th>
-									<th data-hide="phone">Jumlah Barang</th>
-									<th data-hide="phone">Sales</th>
-									<th data-hide="phone">Kasir</th>
-									<th data-hide="phone">Customer</th>
-									<th data-hide="phone">Total Harga</th>
-									<th data-hide="phone">Toko</th>
-									<th data-hide="phone">Tanggal</th>
-									
-								</tr>
-							</thead>
-							<tbody id="table_body">
-								<?php if($sale !=NULL): ?>
-									<?php $i = 1; ?>
-									<?php foreach($sale as $row): ?>
-										<tr>
-											<td><?php echo $i ?></td>
-											<td><a href="<?php echo base_url('sale/detail/'.$row->sale_code) ?>"><?php echo $row->sale_code ?></a></td>
-											<td><?php echo $row->qty ?></td>
-											<td><?php echo $row->sales_name ?></td>
-											<td><?php echo $row->cashier ?></td>
-											<td><?php echo $row->customer ?></td>
-											<td><?php echo rupiah($row->total_price) ?></td>
-											<td><?php echo $row->outlet_name ?></td>
-											<td><?php echo date('d-M-Y H:i',strtotime($row->date)); ?></td>
-										</tr>		
-										<?php $i++; ?>
-									<?php endforeach; ?>
-								<?php else:?>
-									<tr>
-										<td colspan="12" class="text-center"><h3>Table kosong</h3></td>
-									</tr>
-								<?php endif; ?>
-							</tbody>
-						</table>
-					</div>
-				</div>
+									<td><?php echo $i ?></td>
+									<td><a href="<?php echo base_url('sale/detail/'.$row->sale_code) ?>"><?php echo $row->sale_code ?></a></td>
+									<td><?php echo $row->qty ?></td>
+									<td><?php echo $row->sales_name ?></td>
+									<td><?php echo $row->cashier ?></td>
+									<td><?php echo $row->customer ?></td>
+									<td><?php echo rupiah($row->total_price) ?></td>
+									<td><?php echo $row->outlet_name ?></td>
+									<td><?php echo date('d-M-Y H:i',strtotime($row->date)); ?></td>
+								</tr>		
+								<?php $i++; ?>
+							<?php endforeach; ?>
+						<?php else:?>
+							<tr>
+								<td colspan="12" class="text-center"><h3>Table kosong</h3></td>
+							</tr>
+						<?php endif; ?>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -191,50 +139,7 @@
 						var year = date.getFullYear();
 						var hour = date.getHours();
 						var min  = date.getMinutes();
-					  $('#table_body').append("<tr><td>"+no+"</td><td><a href='<?php echo base_url() ?>sale/detail/"+value.sale_code+"'>"+((value.sale_code) ? value.sale_code : "")+"</a></td><td>"+((value.qty) ? value.qty : "")+"</td><td>"+((value.sales_name) ? value.sales_name : "")+"</td><td>"+((value.cashier) ? value.cashier : "")+"</td><td>"+((value.customer) ? value.customer : "")+"</td><td>"+((value.total_price) ? value.total_price : "")+"</td><td>"+((value.outlet_name) ? value.outlet_name : "")+"</td><td>"+day + '-' + monthNames[monthIndex] + '-' + year + " "+hour+ ":"+min+"</td></tr>");
-
-					  no++;
-					});
-					$('#table_sale').trigger('footable_initialize');
-              	}
-
-              }
-            });
-	}
-
-
-	function get_sale_by_type(el){
-		var monthNames = [
-		  "Jan", "Feb", "Mar",
-		  "Apr", "May", "Jun", "Jul",
-		  "Aug", "Sep", "Oct",
-		  "Nov", "Dec"
-		];
-
-		
-		var no=1;
-		$.ajax({
-              url: "<?php echo base_url('sale/get_sale_by_type')?>" + "/" + $(el).val(),
-              type: 'GET',
-              cache : false,
-              success: function(result){
-               	if(result == 'not found'){
-      		        $.Notify({
-			            caption: 'Error',
-			            content: 'Barang Tidak Ditemukan',
-			            type: 'alert'
-			        });
-              	}else{
-              		var data = JSON.parse(result);
-              		$('#table_body').empty();
-              		$.each(data, function( index, value ) {
-              			var date = new Date(value.date);
-						var day = date.getDate();
-						var monthIndex = date.getMonth();
-						var year = date.getFullYear();
-						var hour = date.getHours();
-						var min  = date.getMinutes();
-					  $('#table_body').append("<tr><td>"+no+"</td><td><a href='<?php echo base_url() ?>sale/detail/"+value.sale_code+"'>"+((value.sale_code) ? value.sale_code : "")+"</a></td><td>"+((value.qty) ? value.qty : "")+"</td><td>"+((value.sales_name) ? value.sales_name : "")+"</td><td>"+((value.cashier) ? value.cashier : "")+"</td><td>"+((value.customer) ? value.customer : "")+"</td><td>"+((value.total_price) ? value.total_price : "")+"</td><td>"+((value.outlet_name) ? value.outlet_name : "")+"</td><td>"+day + '-' + monthNames[monthIndex] + '-' + year + " "+hour+ ":"+min+"</td></tr>");
+					  $('#table_body').append("<tr><td>"+no+"</td><td><a href='<?php echo base_url() ?>sale/detail/"+value.sale_code+"'>"+value.sale_code+"</a></td><td>"+value.qty+"</td><td>"+value.sales_name+"</td><td>"+value.cashier+"</td><td>"+value.customer+"</td><td>"+value.total_price+"</td><td>"+value.outlet_name+"</td><td>"+day + '-' + monthNames[monthIndex] + '-' + year + " "+hour+ ":"+min+"</td></tr>");
 
 					  no++;
 					});

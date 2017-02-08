@@ -6,7 +6,8 @@
 		function __construct(){
 			parent::__construct();
 			
-			$this->load->model('sale_model');
+			$this->load->model('sale_model','sale');
+			$this->load->model('type_model','type');
 		}
 
 		/****List Penjualan****/
@@ -14,10 +15,55 @@
 			$data['title'] = 'Daftar Penjualan';
 			if ($this->session_role == 'admin') {
 				$data['outlets'] = $this->db->get('outlets')->result();
-				$data['sale'] = $this->sale_model->get_sale_by_outlet(1);
+				//$data['sale'] = $this->sale->get_sale_by_outlet(1);
+				if($this->input->post())
+				{
+					if(!empty($this->input->post('keyword')))
+					{
+						$this->db->where("(sale.sale_code LIKE '%".$this->input->post('keyword')."%' OR 
+							sale.qty LIKE '%".$this->input->post('keyword')."%' OR
+							s1.name LIKE '%".$this->input->post('keyword')."%' OR
+							c1.name LIKE '%".$this->input->post('keyword')."%' OR
+							o1.name LIKE '%".$this->input->post('keyword')."%' OR
+							c2.name LIKE '%".$this->input->post('keyword')."%' OR
+							sale.total_price LIKE '%".$this->input->post('keyword')."%')", NULL, FALSE);
+						$data['keyword']	= $this->input->post('keyword');
+					}
+					if(!empty($this->input->post('date')))
+					{
+						$date 		= explode('-', $this->input->post('date'));
+						$newdate	= date("Y-m-d H:i:s", mktime(0,0,0,$date[1],$date[2],$date[0]));
+						$this->db->where('sale.date', $newdate);
+						$data['date']	= $this->input->post('date');
+					}
+					if(!empty($this->input->post('outlet_id')))
+					{
+						$this->db->where('sale.outlet_id', $this->input->post('outlet_id'));
+						$data['outlet_id']	= $this->input->post('outlet_id');
+					}
+					if(!empty($this->input->post('type_id')))
+					{
+						$this->db->where('products.type_id', $this->input->post('type_id'));
+						$data['type_id']	= $this->input->post('type_id');
+					}
+					if(!empty($this->input->post('omzet')))
+					{
+						$this->db->where('sale.total_price >= '.$this->input->post('omzet'), NULL, FALSE);
+						$data['omzet']	= $this->input->post('omzet');
+					}
+					if(!empty($this->input->post('timbangan')))
+					{
+						$this->db->where('products.real_weight >= '.$this->input->post('timbangan'), NULL, FALSE);
+						$data['timbangan']	= $this->input->post('timbangan');
+					}
+				}
+
+				$data['sale'] = $this->sale->get_all();
+				$data['type'] = $this->type->get_all();
 			}else{
 				$data['outlets'] = NULL;
-				$data['sale'] = $this->sale_model->get_sale_by_outlet($this->session_outlet);	
+				//$data['sale'] = $this->sale->get_sale_by_outlet($this->session_outlet);	
+				$data['sale'] = $this->sale->get_many_by($this->sale->_table.'.outlet_id',$this->session_outlet);	
 			}
 			
 			$this->template->load($this->default,'sale/list_sale',$data);
@@ -27,7 +73,7 @@
 		/****Detail Transaksi Penjualan****/
 		public function detail($code = ''){
 			$data['title'] = 'Detail Penjualan';
-			$data['details'] = $this->sale_model->get_sale_detail($this->session_outlet,$code);
+			$data['details'] = $this->sale->get_sale_detail($this->session_outlet,$code);
 			
 			$this->template->load($this->default,'sale/sale_detail',$data);
 		}
@@ -166,13 +212,26 @@
 		/**** SELLING ENDS ****/
 		
 		public function get_sale_by_outlet($outlet_id = ''){
-			$sale = $this->sale_model->get_sale_by_outlet($outlet_id);
+			$sale = $this->sale->get_sale_by_outlet($outlet_id);
 			if($sale == NULL){
 				echo 'not found';
 			}else{
 				$sale = (Object) $sale;
 				echo json_encode($sale);	
 			}
+			
+		}
+		
+		public function get_sale_by_type($type_id = ''){
+			$type = $this->type->get($type_id);
+
+			$sale = $this->sale->get_sale_by_type($type_id,$type->name);
+			if($sale == NULL){
+				echo 'not found';
+			}else{
+				$sale = (Object) $sale;
+				echo json_encode($sale);	
+			} 
 			
 		}
 

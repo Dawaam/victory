@@ -107,6 +107,7 @@
 				<label for="">Tipe</label>
 				<div class="input-control select full-size">
 					<input type="text" placeholder="Tipe" id="type" readonly="readonly" name="product_type">
+					<input type="hidden" id="type_id" name="type_id">
 				</div>
 			</div>
 		</div>
@@ -281,6 +282,7 @@
 				$('#name').val(data.category);
 				$('#category').val(data.category);
 				$('#type').val(data.type);
+				$('#type_id').val(data.type_id);
 				$('#code').val(data.product_code);    
 				$('#hidden_code').val(data.hidden_code);
 				$('#hidden_count').val(data.hidden_count);           	

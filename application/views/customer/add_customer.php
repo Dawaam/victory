@@ -27,7 +27,7 @@
             <div class="cell">
                 <label>Jenis Customer</label>
                 <div class="input-control select full-size">
-                    <select name="customer_type" data-validate-func="required" data-validate-hint="Jenis customer harus diisi">
+                    <select name="customer_type" data-validate-hint="Jenis customer harus diisi" onchange="get_member(this)">
                         <option value="Regular">Customer Biasa</option>
                         <option value="Member">Member</option>
                     </select>
@@ -37,26 +37,52 @@
 
         <div class="row cells2">
             <div class="cell">
+                <label>No. KTP</label>
+                <div class="input-control text full-size">
+                    <input type="text" placeholder="Nomor KTP" name="customer_ktp" id="customer_ktp">
+                    
+                </div>
+            </div>
+            <div class="cell">
+                <label>Jenis Kelamin</label>
+                <div class="input-control select full-size">
+                    <select name="customer_gender">
+                        <option value="Wanita">Wanita</option>
+                        <option value="Pria">Pria</option>
+                    </select>
+                </div>         
+            </div>
+        </div>
+
+        <div class="row cells3">
+            <div class="cell">
+                <label>Tanggal Lahir</label>
+                 <div class="input-control text full-size" data-role="datepicker" data-format="d mmmm yyyy">
+                    <input type="text" name="customer_birthday">
+                    <button class="button"><span class="mif-calendar"></span></button>
+                </div>
+                
+            </div>
+            <div class="cell">
                 <label>No. Telp</label>
                 <div class="input-control text full-size" data-role="input">
-                    <input type="text" placeholder="Nomor Telephone Customer" name="customer_phone" data-validate-func="digits" data-validate-hint="No. telp hanya terdiri dari angka">
+                    <input type="text" placeholder="Nomor Telephone Customer" name="customer_phone" id="customer_phone">
                     
                 </div>
             </div>
             <div class="cell">
                 <label>E-mail</label>
                 <div class="input-control text full-size" data-role="input" >
-                    <input type="email" placeholder="Email Customer" name="customer_email">
+                    <input type="email" placeholder="Email Customer" name="customer_email" id="customer_email">
                     <button class="button helper-button clear"><span class="mif-cross"></span></button>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="cell">
                 <label>Alamat</label>
                 <div class="input-control textarea full-size" data-role="input" data-text-auto-resize="true">
-                    <textarea placeholder="Alamat Customer" name="customer_address"></textarea>
+                    <textarea placeholder="Alamat Customer" name="customer_address" id="customer_address"></textarea>
                 </div>
             </div>
         </div>  
@@ -80,6 +106,35 @@
             content: message,
             type: 'alert'
         });
+    }
+</script>
+<script>
+    function get_member(el){
+        if($(el).val()=='Member'){
+            $('#customer_email').attr({
+                'data-validate-func':"required",
+                'data-validate-hint':"Email member harus diisi"
+            });
+            $('#customer_phone').attr({
+                'data-validate-func':"required",
+                'data-validate-hint':"No.telp member harus diisi"
+            });
+            $('#customer_address').attr({
+                'data-validate-func':"required",
+                'data-validate-hint':"Alamat member harus diisi"
+            });
+
+            $('#customer_ktp').attr({
+                'data-validate-func':"required",
+                'data-validate-hint':"No.KTP member harus diisi"
+            });
+        }
+        else{
+            $('#customer_email').removeAttr("data-validate-func");
+            $('#customer_phone').removeAttr("data-validate-func");
+            $('#customer_address').removeAttr("data-validate-func");
+            $('#customer_ktp').removeAttr("data-validate-func");
+        }
     }
 
     <?php if($this->session->flashdata('customer')): ?>

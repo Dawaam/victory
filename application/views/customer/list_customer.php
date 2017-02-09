@@ -18,7 +18,7 @@
 	    <div class="row">
 	    	<div class="cell">
 	    		<div class="input-control text full-size">
-                    <input type="text" placeholder="Cari customer" id="filter" >
+                    <input type="text" placeholder="Cari customer berdasarkan salah satu atribut customer" id="filter" >
                 </div>
 	    	</div>
 	    </div>
@@ -35,7 +35,7 @@
 							<th data-hide="phone">Telephone</th>
 							<th data-hide="phone">Email</th>
 							<th data-hide="phone">Alamat</th>
-							<th data-hide="phone">Poin</th>
+							<th data-hide="phone">No KTP</th>
 							<th data-hide="phone">Outlet</th>
 							<th data-hide="phone">Action</th>
 						</tr>
@@ -52,7 +52,7 @@
 								<td><a href="tel:<?php echo $customer->phone ?>"><?php echo $customer->phone ?></a></td>
 								<td><?php echo $customer->email ?></td>
 								<td><?php echo $customer->address ?></td>
-								<td><?php echo $customer->member_point ?></td>
+								<td><?php echo $customer->no_ktp ?></td>
 								<td>
 									<?php $outlet = $this->crud_model->get_by_condition('outlets', array('id'=>$customer->outlet_id))->row('name');
 										echo $outlet;

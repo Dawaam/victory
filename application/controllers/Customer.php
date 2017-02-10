@@ -117,14 +117,20 @@
 			redirect('customer');
 		}
 
+		//WHEN MEMBER SIGN UP, THEY WILL BE ASSIGNED WITH THE PASSWORD
 		public function email_member_password($cust_code=''){
 			$random_code = random_string('numeric', 5);
 			//hashed for database
 			$password = hash_password($random_code);
-			$this->crud_model->update_data('members',array('password' => $password), array('customer_code' => $cust_code));
+			$member_data=array(
+				'password'=>$password,
+				'customer_code'=>$cust_code,
+				'member_point'=>'0'
+				);
+			$this->crud_model->insert_data('members',$member_data);
 			$data = $this->crud_model->get_by_condition('customers', array('code' => $cust_code))->row(); 
-			$to = $data['email'];
-			$subject = "Congratulations ".$data['name']."!";
+			$to = $data->email;
+			$subject = "Congratulations ".$data->name."!";
 			$message = <<<EOD
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 

@@ -41,14 +41,17 @@
 	            		'birthday' => date('Y-m-d',strtotime($birthday)),
 	            		'no_ktp' => $this->input->post('customer_ktp')
 
-	            	);
+	            );
 
 	            if($this->crud_model->insert_data('customers',$data_customer)){
 	            	$this->session->set_flashdata('customer',"$.Notify({
 					    caption: 'Berhasil',
 					    content: 'Berhasil tambah customer',
 					    type: 'success'
-					});");	
+					});");
+					if($data_customer['type']=='member'){
+		            	$this->email_member_password($data_customer['code']);
+		            }	
 	            }else{
 	            	$this->session->set_flashdata('customer',"$.Notify({
 					    caption: 'Gagal',
@@ -56,6 +59,8 @@
 					    type: 'alert'
 					});");
 	            }
+
+
 	            
 	            redirect('customer/add_customer');
 
@@ -118,8 +123,8 @@
 			$password = hash_password($random_code);
 			$this->crud_model->update_data('members',array('password' => $password), array('customer_code' => $cust_code));
 			$data = $this->crud_model->get_by_condition('customers', array('code' => $cust_code))->row(); 
-			$to = $data->email;
-			$subject = "Congratulations ".$data->name."!";
+			$to = $data['email'];
+			$subject = "Congratulations ".$data['name']."!";
 			$message = <<<EOD
 			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
